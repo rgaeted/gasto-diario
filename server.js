@@ -106,9 +106,12 @@ function hashPassword(password, salt) {
 
 app.post('/api/register', async (req, res) => {
   const username = normalizeUser(req.body.username);
-  const password = req.body.password;
+  const password = (req.body.password || '').trim();
   if (!username || !password) {
     return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
+  }
+  if (password.length < 3) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 3 caracteres' });
   }
   try {
     const row = await dbGet('SELECT username FROM users WHERE username = $1', [username]);
@@ -131,7 +134,7 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   const username = normalizeUser(req.body.username);
-  const password = req.body.password;
+  const password = (req.body.password || '').trim();
   if (!username || !password) {
     return res.status(400).json({ error: 'Usuario y contraseña son requeridos' });
   }

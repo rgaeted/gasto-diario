@@ -851,21 +851,27 @@
     ev.preventDefault();
     const rawUsername = ($('authUser').value || '').trim();
     const username = normalizeUser(rawUsername);
-    const password = $('authPassword').value;
+    const password = ($('authPassword').value || '').trim();
     if(!rawUsername || !username || !password){
       setAuthMessage('Usuario y contraseña son obligatorios.');
+      return;
+    }
+    if(password.length < 3){
+      setAuthMessage('La contraseña debe tener al menos 3 caracteres.');
       return;
     }
     try{
       if(state.authMode === AUTH_MODES.REGISTER){
         await registerUser(rawUsername, password);
         setAuthMessage('Registro exitoso. Ya puedes iniciar sesión.');
+        $('authForm').reset();
         showLoginMode();
       } else {
         await loginUser(rawUsername, password);
         state.username = rawUsername;
         state.profile = username;
-        await persistAll();
+        await persistAuthSession();
+        $('authForm').reset();
         await loadData();
         setAuthMessage('');
       }
