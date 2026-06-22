@@ -453,7 +453,8 @@
     filterCurrency: 'all',
     authMode: AUTH_MODES.LOGIN,
   };
-  const API_BASE = '/api';
+  const _pathPrefix = window.location.pathname.replace(/\/$/, '');
+  const API_BASE = `${_pathPrefix}/api`;
   const $ = (id) => document.getElementById(id);
   const storage = window.storage || {
     async get(key){
