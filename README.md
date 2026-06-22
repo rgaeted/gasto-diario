@@ -55,4 +55,16 @@ Para activar el despliegue, configura estos secretos en GitHub:
 
 El workflow se encuentra en `.github/workflows/heroku-deploy.yml`.
 
+Para que los datos persistan entre deploys en Heroku es necesario usar una base de datos externa.
+
+Heroku guarda el código y los archivos en un filesystem efímero. Esto significa que `data.db` se perderá cada vez que la app se redeploye.
+
+Provisiona Heroku Postgres con:
+
+```bash
+heroku addons:create heroku-postgresql:hobby-dev
+```
+
+Heroku creará automáticamente la variable `DATABASE_URL`, y el servidor usará PostgreSQL en lugar de SQLite.
+
 Si prefieres usar el Heroku CLI manualmente, Heroku usará el `Procfile` y `package.json` para iniciar el servidor con `web: node server.js`.

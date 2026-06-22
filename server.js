@@ -44,12 +44,16 @@ async function initDb() {
   }
 }
 
+function sqliteSql(sql) {
+  return sql.replace(/\$\d+/g, '?');
+}
+
 function dbGet(sql, params) {
   if (usePostgres) {
     return db.query(sql, params).then((result) => result.rows[0] || null);
   }
   return new Promise((resolve, reject) => {
-    sqliteDb.get(sql, params, (err, row) => {
+    sqliteDb.get(sqliteSql(sql), params, (err, row) => {
       if (err) return reject(err);
       resolve(row);
     });
@@ -61,14 +65,20 @@ function dbRun(sql, params) {
     return db.query(sql, params);
   }
   return new Promise((resolve, reject) => {
-    sqliteDb.run(sql, params, function (err) {
+    sqliteDb.run(sqliteSql(sql), params, function (err) {
       if (err) return reject(err);
       resolve(this);
     });
   });
 }
 
-initDb().catch((err) => {
+initDb().then(() => {
+  if (usePostgres) {
+    console.log('Usando PostgreSQL para persistencia de datos.');
+  } else {
+    console.log('Usando SQLite local. En Heroku, los datos se perderán al redeploy a menos que configures DATABASE_URL.');
+  }
+}).catch((err) => {
   console.error('No se pudo inicializar la base de datos', err);
   process.exit(1);
 });
