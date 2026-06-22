@@ -5,6 +5,7 @@ Aplicación de registro de gastos de viaje con almacenamiento persistente en ser
 ## Qué hay ahora
 
 - El frontend ahora usa un backend Node.js/Express.
+- Se agregó un flujo de registro e inicio de sesión simple.
 - La información del usuario se guarda en una base de datos SQLite (`data.db`).
 - Los perfiles se cargan por nombre de usuario y se recuperan aunque se borren los datos del navegador.
 
