@@ -6,8 +6,9 @@ Aplicación de registro de gastos de viaje con almacenamiento persistente en ser
 
 - El frontend ahora usa un backend Node.js/Express.
 - Se agregó un flujo de registro e inicio de sesión simple.
-- La información del usuario se guarda en una base de datos SQLite (`data.db`).
-- Los perfiles se cargan por nombre de usuario y se recuperan aunque se borren los datos del navegador.
+- La información del usuario se guarda en una base de datos SQLite (`data.db`) localmente.
+- En despliegues de Heroku se puede usar Heroku Postgres con `DATABASE_URL` para que los datos no se pierdan al redeploy.
+- Los perfiles se cargan por nombre de usuario y se recuperan aunque se borren los datos del navegador cuando el backend está disponible.
 
 ## Cómo ejecutar localmente
 
