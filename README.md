@@ -40,3 +40,22 @@ Aplicación de registro de gastos de viaje con almacenamiento persistente en ser
 ## Nota
 
 Esta versión ya no es solo estática en GitHub Pages: necesita un servidor Node.js para el almacenamiento persistente.
+
+## Despliegue en Heroku
+
+Si tienes el Heroku CLI instalado, desde la carpeta del proyecto ejecuta:
+
+```bash
+heroku login
+heroku create gasto-diario-app
+git push heroku main
+```
+
+Si prefieres usar el panel de Heroku:
+
+1. Crea una nueva aplicación en https://dashboard.heroku.com/apps
+2. Conecta tu repositorio GitHub `rgaeted/gasto-diario`
+3. Configura el branch `main`
+4. Despliega la app
+
+Heroku usará el `Procfile` y `package.json` para iniciar el servidor en `web: node server.js`.
