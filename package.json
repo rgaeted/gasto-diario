@@ -4,10 +4,11 @@
   "description": "Registro de gastos de viaje con almacenamiento persistente en SQLite.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "node ./test/server.test.js"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "dependencies": {
     "cors": "^2.8.5",
