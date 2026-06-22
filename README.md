@@ -1,25 +1,42 @@
 # gasto-diario
 
-Aplicación de registro de gastos de viaje desplegada con GitHub Pages.
+Aplicación de registro de gastos de viaje con almacenamiento persistente en servidor SQLite.
 
-## Estado actual
+## Qué hay ahora
 
-La aplicación ya está subida a la rama `main` y el archivo principal es `index.html`.
+- El frontend ahora usa un backend Node.js/Express.
+- La información del usuario se guarda en una base de datos SQLite (`data.db`).
+- Los perfiles se cargan por nombre de usuario y se recuperan aunque se borren los datos del navegador.
 
-## Cómo activar GitHub Pages
+## Cómo ejecutar localmente
 
-1. Abre el repositorio en GitHub: `https://github.com/rgaeted/gasto-diario`
-2. Ve a `Settings`
-3. En el menú lateral, selecciona `Pages`
-4. En `Source` selecciona:
-   - Branch: `main`
-   - Folder: `/ (root)`
-5. Presiona `Save`
+1. Abre una terminal en la carpeta del proyecto.
+2. Ejecuta:
 
-La página debería estar disponible en unos minutos en:
+   ```bash
+   npm install
+   npm start
+   ```
 
-- `https://rgaeted.github.io/gasto-diario/`
+3. Abre el navegador en:
+
+   ```
+   http://localhost:3000
+   ```
+
+## Cómo usar múltiples usuarios
+
+- Escribe un nombre de usuario en el campo `Usuario`.
+- Ese perfil guarda su propio viaje y gastos.
+- Si borras los datos del navegador, vuelve a escribir el mismo nombre de usuario y los datos se recuperarán desde la base de datos.
+
+## Archivos importantes
+
+- `index.html` — interfaz de la aplicación.
+- `server.js` — servidor backend con rutas `/api/profile/:profile`.
+- `package.json` — dependencias y comando `npm start`.
+- `.gitignore` — ignora `node_modules/` y `data.db`.
 
 ## Nota
 
-Si sigues viendo un error 404, espera unos minutos y recarga. GitHub Pages suele tardar un poco en publicar la primera versión.
+Esta versión ya no es solo estática en GitHub Pages: necesita un servidor Node.js para el almacenamiento persistente.
