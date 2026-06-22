@@ -45,19 +45,14 @@ Esta versión ya no es solo estática en GitHub Pages: necesita un servidor Node
 
 ## Despliegue en Heroku
 
-Si tienes el Heroku CLI instalado, desde la carpeta del proyecto ejecuta:
+Este repositorio ya incluye un workflow de GitHub Actions que puede desplegar la aplicación en Heroku automáticamente cuando hay un push a `main`.
 
-```bash
-heroku login
-heroku create gasto-diario-app
-git push heroku main
-```
+Para activar el despliegue, configura estos secretos en GitHub:
 
-Si prefieres usar el panel de Heroku:
+- `HEROKU_API_KEY` — tu API key de Heroku.
+- `HEROKU_APP_NAME` — el nombre de la app en Heroku.
+- `HEROKU_EMAIL` — el correo de la cuenta de Heroku.
 
-1. Crea una nueva aplicación en https://dashboard.heroku.com/apps
-2. Conecta tu repositorio GitHub `rgaeted/gasto-diario`
-3. Configura el branch `main`
-4. Despliega la app
+El workflow se encuentra en `.github/workflows/heroku-deploy.yml`.
 
-Heroku usará el `Procfile` y `package.json` para iniciar el servidor en `web: node server.js`.
+Si prefieres usar el Heroku CLI manualmente, Heroku usará el `Procfile` y `package.json` para iniciar el servidor con `web: node server.js`.
