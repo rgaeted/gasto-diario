@@ -389,10 +389,7 @@
           <select id="f-currency"></select>
         </div>
       </div>
-      <div id="f-custom-currency-wrap" class="hidden">
-        <label for="f-custom-currency">Código de moneda (3 letras)</label>
-        <input id="f-custom-currency" type="text" maxlength="3" placeholder="Ej: JPY" style="text-transform:uppercase" />
-      </div>
+
       <div class="form-row">
         <div>
           <label for="f-category">Categoría</label>
@@ -657,7 +654,7 @@
   function buildSelects(){
     const catOptionsHtml = CATEGORIES.map(c => `<option value="${c.id}">${c.emoji} ${c.label}</option>`).join('');
     $('f-category').innerHTML = catOptionsHtml;
-    const curOptionsHtml = CURRENCIES.map(c => `<option value="${c}">${c}</option>`).join('') + `<option value="OTRA">Otra…</option>`;
+    const curOptionsHtml = CURRENCIES.map(c => `<option value="${c}">${c}</option>`).join('');
     $('f-currency').innerHTML = curOptionsHtml;
     $('filterCategory').innerHTML = `<option value="all">Todas las categorías</option>` + catOptionsHtml;
     $('filterCurrency').innerHTML = `<option value="all">Todas las monedas</option>` + CURRENCIES.map(c => `<option value="${c}">${c}</option>`).join('');
@@ -755,7 +752,6 @@
   function hideForm(){
     $('expenseForm').classList.add('hidden');
     $('expenseForm').reset();
-    $('f-custom-currency-wrap').classList.add('hidden');
     state.editingId = null;
     $('submitFormBtn').textContent = 'Guardar gasto';
     $('f-date').value = todayStr();
@@ -769,14 +765,7 @@
     $('f-amount').value = e.amount;
     $('f-category').value = e.category;
     $('f-date').value = e.date;
-    if(CURRENCIES.includes(e.currency)){
-      $('f-currency').value = e.currency;
-      $('f-custom-currency-wrap').classList.add('hidden');
-    } else {
-      $('f-currency').value = 'OTRA';
-      $('f-custom-currency-wrap').classList.remove('hidden');
-      $('f-custom-currency').value = e.currency;
-    }
+    $('f-currency').value = CURRENCIES.includes(e.currency) ? e.currency : CURRENCIES[0];
     $('submitFormBtn').textContent = 'Guardar cambios';
     showForm();
     $('expenseForm').scrollIntoView({ behavior:'smooth', block:'start' });
@@ -797,10 +786,7 @@
     const amount = parseFloat($('f-amount').value);
     const category = $('f-category').value;
     const date = $('f-date').value;
-    let currency = $('f-currency').value;
-    if(currency === 'OTRA'){
-      currency = ($('f-custom-currency').value || '').trim().toUpperCase();
-    }
+    const currency = $('f-currency').value;
     if(!description || !amount || amount <= 0 || !currency || currency.length < 1){
       alert('Revisa la descripción, el monto y la moneda.');
       return;
@@ -902,9 +888,6 @@
     $('cancelFormBtn').addEventListener('click', hideForm);
     $('expenseForm').addEventListener('submit', handleSubmit);
     $('exportBtn').addEventListener('click', exportCSV);
-    $('f-currency').addEventListener('change', (e) => {
-      $('f-custom-currency-wrap').classList.toggle('hidden', e.target.value !== 'OTRA');
-    });
     $('filterCategory').addEventListener('change', (e) => {
       state.filterCategory = e.target.value;
       renderList();
